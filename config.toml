@@ -19,3 +19,8 @@ theme = 'nostyleplease'
     noHl = false
     style = 'dracula'
     tabWidth = 4
+
+[params]
+  [params.theme_config]
+    back_home_text = "←"
+    date_format = "Jan 2, 2006"
