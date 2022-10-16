@@ -1,5 +1,5 @@
 ---
-title: "ESP8266 Thermostat with ESPHome"
+title: "ESP8266 WiFi Smart Thermostat Powered by ESPHome and Home Assistant"
 date: 2022-10-16T07:19:55-07:00
 draft: false
 ---
@@ -27,7 +27,7 @@ I've been planning to replace my Nest thermostat with a local-only option since 
 * [Thermostat ESPHome Component](https://esphome.io/components/climate/thermostat.html) – Manages the relays based on the thermostat readings. This is what gets picked up by Home Assistant as a [`climate` entity](https://developers.home-assistant.io/docs/core/entity/climate/). 
 * [CP210x Drivers](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads) – I use MacOS and used the OSX driver. 
 
-## Wiring the Board for Flashing
+## Preparing the Board for Flashing
 
 The board does not have a boot button, so flashing over USB didn't work. In order to flash the board over UART with the CP2102, I had to do a bit of soldering.
 
@@ -52,7 +52,7 @@ We can now connect the CP2102 to the board with the following pin out:
 
 **NOTE:** This did not provide me with enough power to flash the device with ESPHome. In addition to the above, I also connected the board to USB power.
 
-## Wiring the Relays to the HVAC System
+### Wiring the Relays to the HVAC System
 
 My HVAC system at home was wired as follows:
 
@@ -67,9 +67,13 @@ Below is a quick and dirty diagram of what my wiring looks like:
 
 ![Header Pings](/images/hass/esp8266-thermostat/wiring-diagram.png)
 
+### Setting the Hardware Relay Mode
+
+You will want to set the mode to "interlocking". You can do this by pushing the `MODE` button until the led flashes 3 times. Interlocking means that only one relay at a time can be open.
+
 ## Flashing ESPHome
 
-Once you've put the solder gun away, it's time to flash ESPHome. I did this in Home Assistant using the ESPHome integration using Chrome. This worked like all of my other ESP32s except there's no boot button to press on connect.
+Once you've put the solder gun away, it's time to flash ESPHome. I did this in Home Assistant using the ESPHome integration with Chrome. This worked like all of my other ESP32s except there's no boot button to press on connect.
 
 ### ESPHome Configuration
 
@@ -133,7 +137,9 @@ Once you've flashed the board, you can connect to it normally OTA to get the log
 [15:16:28][C][tuya:068]:   Product: '{"p":"waq2wj9pjadcg1qc","v":"1.0.0","m":0}'
 {{< / highlight >}}
 
-## Configuring ESPHome Climate Component
+## Configuring ESPHome 
+
+### Add a Climate Component to ESPHome
 
 The [thermostat climate controller component](https://esphome.io/components/climate/thermostat.html) in ESPHome will require a few things be configured:
 
@@ -210,3 +216,24 @@ climate:
       default_target_temperature_high: 20 °C
       mode: heat_cool
 {{< / highlight >}}
+
+### Add Device to ESPHome Integration in Home Assistant
+
+Go to `Settings → Devices & Services → ESPHome → living-room-thermostat → 1 device` and you should see the following:
+
+![Home Assistant Device](/images/hass/esp8266-thermostat/home-assistant-device.png)
+
+### Add Device to Lovelace in Home Assistant
+
+Add the following YAML to one of your dashboards:
+
+{{< highlight yml >}}
+# Add this to a list of cards
+- type: thermostat
+  entity: climate.living_room_thermostat
+  name: ESP8266
+{{< / highlight >}}
+
+And you'll get a nice climate control widget:
+
+![Home Assistant Dashboard](/images/hass/esp8266-thermostat/home-assistant-dashboard.png)
