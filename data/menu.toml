@@ -1,0 +1,22 @@
+[[entries]]
+title = "info"
+
+  [[entries.entries]]
+  title = "Adventures in home automation with Home Assistant, ESPHome, ESPresense, and other tiny computers."
+
+  [[entries.entries]]
+  title = "GitHub"
+  url = "https://github.com/joestump"
+
+[[entries]]
+title = "Home Automation"
+
+  [entries.post_list]
+  section = "hass"
+  show_more = true
+  show_more_text = "See more posts..."
+  show_more_url = "posts"
+
+[[entries]]
+title = "rss"
+url = "index.xml"
