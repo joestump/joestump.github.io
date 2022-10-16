@@ -240,3 +240,9 @@ Add the following YAML to one of your dashboards:
 And you'll get a nice climate control widget:
 
 ![Home Assistant Dashboard](/images/hass/esp8266-thermostat/home-assistant-dashboard.png)
+
+## Working Proof of Concept
+
+My ESP8266 is currently operating as the climate control for my house. The wiring is rough at the moment. I will be following up with a post about the final product, which will house this, a controlled outlet, and a wall mounted 10.5" Samsung Tab A8.
+
+![Rough Wiring](/images/hass/esp8266-thermostat/rough-wiring.jpeg)
