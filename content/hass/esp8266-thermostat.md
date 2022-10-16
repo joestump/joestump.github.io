@@ -23,7 +23,7 @@ I've been planning to replace my Nest thermostat with a local-only option since 
 
 * [Home Assistant](https://www.home-assistant.io) – Used for the temperature sensor and to control the thermostat.
 * [ESPHome Integration](https://www.home-assistant.io/integrations/esphome/) – We will use this to flash/configure the board.
-* [Tuya MCU ESPHome Component](https://esphome.io/components/tuya.html) – The board uses a Tuya MUC. We will use this component to configure the 4 relays as [Tuya switches](https://esphome.io/components/switch/tuya.html).
+* [Tuya MCU ESPHome Component](https://esphome.io/components/tuya.html) – The board uses a Tuya MCU. We will use this component to configure the 4 relays as [Tuya switches](https://esphome.io/components/switch/tuya.html).
 * [Thermostat ESPHome Component](https://esphome.io/components/climate/thermostat.html) – Manages the relays based on the thermostat readings. This is what gets picked up by Home Assistant as a [`climate` entity](https://developers.home-assistant.io/docs/core/entity/climate/). 
 * [CP210x Drivers](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads) – I use MacOS and used the OSX driver. 
 
@@ -75,7 +75,7 @@ You will want to set the mode to "interlocking". You can do this by pushing the 
 
 Once you've put the solder gun away, it's time to flash ESPHome. I did this in Home Assistant using the ESPHome integration with Chrome. This worked like all of my other ESP32s except there's no boot button to press on connect.
 
-### ESPHome Configuration
+### ESPHome Configuration for ESP8266 with Tuya MCU
 
 The following is a basic configuration that will expose the Tuya MCU once flashed.
 
@@ -115,7 +115,7 @@ uart:
 tuya:
 {{< / highlight >}}
 
-### Expected Log Output
+### Expected Log Output from `tuya` Component
 
 Once you've flashed the board, you can connect to it normally OTA to get the log output. On boot, you should see the Tuya component output some logs that look something like this:
 
@@ -137,7 +137,7 @@ Once you've flashed the board, you can connect to it normally OTA to get the log
 [15:16:28][C][tuya:068]:   Product: '{"p":"waq2wj9pjadcg1qc","v":"1.0.0","m":0}'
 {{< / highlight >}}
 
-## Configuring ESPHome 
+## Configuring ESPHome to Manage the HVAC System
 
 ### Add a Climate Component to ESPHome
 
@@ -172,6 +172,9 @@ switch:
 sensor:
 - platform: homeassistant
   id: current_temperature
+  # This sensor is an average of multiple sensors throughout
+  # my house. A mixture of Zigbee and BLE sensors. This will be
+  # used to drive the thermostat's modes.
   entity_id: sensor.upstairs_home_temperature 
   device_class: temperature
   state_class: measurement
