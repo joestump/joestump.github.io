@@ -189,9 +189,7 @@ climate:
 - platform: thermostat
   name: "Living Room Thermostat"
   sensor: current_temperature
-  default_mode: heat_cool
-  default_target_temperature_low: 20 °C
-  default_target_temperature_high: 22 °C
+  default_preset: home
   supplemental_heating_delta: 3 °C
   startup_delay: True
   min_fanning_run_time: 300s
@@ -200,7 +198,7 @@ climate:
   min_heating_off_time: 300s
   min_heating_run_time: 300s
   max_heating_run_time: 1800s
-  min_idle_time: 30s
+  min_idle_time: 300s
   min_fanning_off_time: 1800s
   cool_action:
     - switch.turn_on: air_cond
@@ -213,10 +211,19 @@ climate:
   idle_action:
     - switch.turn_off: air_cond
     - switch.turn_off: heat_stage_1
+    - switch.turn_off: heat_stage_2
   preset:
+    - name: home
+      default_target_temperature_low: 19 °C 
+      default_target_temperature_high: 22 °C
+      mode: heat_cool    
     - name: away
+      default_target_temperature_low: 10 °C 
+      default_target_temperature_high: 30 °C
+      mode: heat_cool
+    - name: sleep
       default_target_temperature_low: 18 °C 
-      default_target_temperature_high: 20 °C
+      default_target_temperature_high: 24 °C
       mode: heat_cool
 {{< / highlight >}}
 
