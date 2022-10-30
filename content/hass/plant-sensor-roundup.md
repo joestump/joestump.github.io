@@ -169,19 +169,19 @@ If you have the LILYGO TTGO T-Higrow with the DHT11 sensor add the following to 
   pin: 16
   model: dht11
   temperature:
-    name: "${upper_devicename} Temperature"
+    name: "Temperature"
     unit_of_measurement: "°C"
     icon: "mdi:thermometer"
     device_class: "temperature"
     state_class: "measurement"
     accuracy_decimals: 1            
   humidity:
-    name: "${upper_devicename} Humidity"
+    name: "Humidity"
     unit_of_measurement: "%"
     icon: "mdi:thermometer"
     device_class: "humidity"
     state_class: "measurement"      
-  update_interval: ${update_interval}
+  update_interval: 120s
   setup_priority: -100
 {{< / highlight >}}
 
