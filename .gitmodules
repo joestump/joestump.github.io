@@ -1,3 +1,6 @@
 [submodule "themes/nostyleplease"]
 	path = themes/nostyleplease
 	url = https://github.com/Masellum/hugo-theme-nostyleplease.git
+[submodule "themes/terminal"]
+	path = themes/terminal
+	url = https://github.com/panr/hugo-theme-terminal.git

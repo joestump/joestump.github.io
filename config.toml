@@ -1,7 +1,8 @@
 baseURL = 'https://joestump.github.io/'
 languageCode = 'en-us'
 title = 'Joe Stump'
-theme = 'nostyleplease'
+# theme = 'nostyleplease'
+theme = 'terminal'
 
 [markup]
 
@@ -21,6 +22,22 @@ theme = 'nostyleplease'
     tabWidth = 4
 
 [params]
-  [params.theme_config]
-    back_home_text = "←"
-    date_format = "Jan 2, 2006"
+  contentTypeName = "hass"
+  fullWidthTheme = false
+  themeColor = "blue"
+#  [params.theme_config]
+#    back_home_text = "←"
+#    date_format = "Jan 2, 2006"
+
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    title = "Joe Stump"
+    subtitle = "Adventures in Home Automation"
+    owner = "Joe Stump"
+    keywords = "Home Automation, Home Assistant, ESPHome, ESPresense"
+    copyright = "© 2022 Joe Stump"
+
+    [languages.en.params.logo]
+      logoText = "Joe Stump"
