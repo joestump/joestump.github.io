@@ -111,7 +111,7 @@ The last sensor I wanted was a simple count of how many cushions detected presen
 
 ### Automating the TV
 
-I already have my TVs wired into Home Assistant. I use the [Universal Media Player](https://www.home-assistant.io/integrations/universal/) to tie my SONOS, Apple TV, and LG TV together into a single compoenent that I use in my various HASS automations. Once the `sensor.number_of_people_on_the_couch` was working, it was trivial to turn on my TV when I sat down at the couch with the following automation:
+I already have my TVs wired into Home Assistant. I use the [Universal Media Player](https://www.home-assistant.io/integrations/universal/) to tie my SONOS, Apple TV, and LG TV together into a single compoenent that I use in my various HASS automations. Once the `sensor.number_of_people_on_the_couch` was working, it was trivial to turn on my TV when I sat down at the couch with the following automation. I also set it up to pause/play my Apple TV when the count of people on the couch goes below 2 or above 1.
 
 {{< highlight yml >}}
 - id: sat_on_the_couch
@@ -124,4 +124,30 @@ I already have my TVs wired into Home Assistant. I use the [Universal Media Play
     - service: media_player.turn_on
       data:
         entity_id: media_player.left_tv
+- id: pause_apple_tv_leaving_couch
+  alias: Pause Apple TV when People on Couch goes Below 2
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.number_of_people_on_the_couch
+    below: 2
+  condition:
+    - condition: state
+      entity_id: media_player.living_room_apple_tv
+      state: 'playing'
+  action:
+    - service: media_player.media_pause
+      entity_id: media_player.living_room_apple_tv
+- id: play_apple_tv_leaving_couch
+  alias: Play Apple TV when People on Couch goes Above 1
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.number_of_people_on_the_couch
+    above: 1
+  condition:
+    - condition: state
+      entity_id: media_player.living_room_apple_tv
+      state: 'paused'
+  action:
+    - service: media_player.media_play
+      entity_id: media_player.living_room_apple_tv
 {{< / highlight >}}
